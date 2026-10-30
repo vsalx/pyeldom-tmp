@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 # Allow Home Assistant to install this test fork directly from a pinned archive.
 # Preserve PACKAGE_VERSION for the upstream release workflow.
-version = os.environ.get("PACKAGE_VERSION", "2.1.1+convector.energy.1")
+version = os.environ.get("PACKAGE_VERSION", "2.1.1+convector.energy.2")
 
 # Setup the package.
 setup(

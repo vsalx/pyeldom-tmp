@@ -22,8 +22,10 @@ class EnergyRecordTests(unittest.TestCase):
         record = parse_energy_record(dict(reversed(list(response().items()))), 2)
         self.assertEqual(record.date, date(2026, 10, 30))
         self.assertEqual(record.total_energy, 6.87)
-        self.assertEqual(record.hourly_energy[8:16],
-                         (1.07, 1.2, 1.07, 0.93, 0.8, 0.67, 0.73, 0.4))
+        for actual, counter in zip(record.hourly_energy[8:16],
+                                   (16, 18, 16, 14, 12, 10, 11, 6)):
+            self.assertAlmostEqual(actual, counter * 0.06666)
+        self.assertEqual(round(sum(record.hourly_energy), 2), record.total_energy)
 
     def test_all_power_classes(self):
         for power_class, expected in enumerate((3.33, 5.0, 6.67, 8.33, 10.0)):

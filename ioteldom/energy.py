@@ -41,10 +41,12 @@ def parse_energy_record(response, power_class):
     values.extend(float(response[f"P{hour}"]) for hour in range(24))
     if any(not math.isfinite(value) or value < 0 for value in values):
         raise ValueError("Invalid energy consumption counter")
-    converted = [round(value * factor, 2) for value in values]
+    # Keep interval precision: rounding each hour before accumulating can drift
+    # from the daily total. Only the displayed daily value follows app rounding.
+    converted = [value * factor for value in values]
     return ConvectorEnergyRecord(
         datetime.fromtimestamp(timestamp, timezone.utc).date(),
-        converted[0],
+        round(converted[0], 2),
         tuple(converted[1:]),
     )
 
