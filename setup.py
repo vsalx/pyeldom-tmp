@@ -1,11 +1,9 @@
 import os
 from setuptools import setup, find_packages
 
-# Check if a version argument is passed via environment variable.
-if "PACKAGE_VERSION" in os.environ:
-    version = os.environ["PACKAGE_VERSION"]
-else:
-    raise Exception("Version is required to be passed as an environment variable.")
+# Allow Home Assistant to install this test fork directly from a pinned archive.
+# Preserve PACKAGE_VERSION for the upstream release workflow.
+version = os.environ.get("PACKAGE_VERSION", "2.1.1+convector.energy.1")
 
 # Setup the package.
 setup(
@@ -19,6 +17,9 @@ setup(
     url="https://github.com/qbaware/pyeldom",
     packages=find_packages(),
     install_requires=[
+        "aiohttp>=3.9.0",
+        "PyJWT>=2.10.1",
+        "pycryptodome>=3.23.0",
         "requests",
     ],
     classifiers=[
@@ -28,3 +29,4 @@ setup(
     ],
     python_requires=">=3.6",
 )
+

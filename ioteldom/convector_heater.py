@@ -5,6 +5,7 @@ from .constants import BASE_URL
 from .models import ConvectorHeaterDetails, ConvectorHeaterStateChangeResponse, Device
 from .crc import crc32
 from .token_provider import TokenProvider
+from .energy import ConvectorEnergyClient
 
 
 class ConvectorHeaterClient:
@@ -29,6 +30,7 @@ class ConvectorHeaterClient:
         """
         self.session = session
         self.token_provider = token_provider
+        self.energy = ConvectorEnergyClient(session, token_provider)
 
     async def get_convector_heater_status(self, device: Device):
         """
@@ -169,3 +171,4 @@ class ConvectorHeaterClient:
         }
 
         return ConvectorHeaterStateChangeResponse(**filtered_heater_json)
+
